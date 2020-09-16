@@ -15,7 +15,9 @@ def get_aws_connection_params(params):
         )
 
         hostname = params.get('host')
-        hostname = resolve_cname(hostname) if hostname else "localhost"
+        # This breaks RDS connections:
+        # -- bjmc 2020-09-16
+        #hostname = resolve_cname(hostname) if hostname else "localhost"
 
         params["password"] = rds_client.generate_db_auth_token(
             DBHostname=hostname,
